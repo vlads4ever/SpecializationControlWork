@@ -1,16 +1,21 @@
-import model.pets.Cat;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import model.petsRegistry.Counter;
+import model.service.Service;
+import presenter.Presenter;
+import view.ConsoleUI;
+import view.interfaces.View;
 
 public class Main {
     public static void main(String[] args) {
-        List<String> catCommand = new ArrayList<>();
-        catCommand.add("Meow");
-        catCommand.add("Jump");
-        LocalDate catBirthday = LocalDate.of(2014, 10, 5);
-        Cat cat = new Cat(1, "Kitty", catBirthday, catCommand);
-        System.out.println(cat);
+
+        try (Counter counter = new Counter()) {
+            View view = new ConsoleUI();
+            Service service = new Service(counter);
+            Presenter presenter = new Presenter(view, service);
+            view.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

@@ -1,13 +1,17 @@
-package model;
+package model.petsRegistry;
 
 public class Counter implements AutoCloseable{
-    static int sum;
-    {
-        sum = 0;
+    private static int count;
+    public Counter() {
+        count = 0;
     }
 
     public void add() {
-        sum++;
+        count++;
+    }
+
+    public int getNewId() {
+        return count;
     }
 
     @Override
