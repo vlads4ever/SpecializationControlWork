@@ -18,6 +18,10 @@ public class Service {
         return activeRegistry.addNewPet(type, name, birthday);
     }
 
+    public String deletePet (int id) {
+        return activeRegistry.deletePet(id);
+    }
+
     public String teachPetById(int id, String command) {
         return activeRegistry.teachPetById(id, command);
     }

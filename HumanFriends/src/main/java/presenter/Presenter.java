@@ -19,6 +19,10 @@ public class Presenter {
         view.print(service.addNewPet(type, name, birthday));
     }
 
+    public void deletePet (int id) {
+        view.print(service.deletePet(id));
+    }
+
     public void teachPetById(int id, String command) {
         view.print(service.teachPetById(id, command));
     }

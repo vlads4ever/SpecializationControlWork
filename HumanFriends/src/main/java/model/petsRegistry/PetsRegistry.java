@@ -68,6 +68,15 @@ public class PetsRegistry {
         };
     }
 
+    public String deletePet (int id) {
+        Pet pet = findPetById(id);
+        if (pet != null) {
+            registry.remove(pet);
+            return "Pet with id " + id + " was deleted.";
+        }
+        return  "Pet not found!";
+    }
+
     private Pet findPetById(int id) {
         for (Pet pet: registry) {
             if (pet.getId() == id) return pet;

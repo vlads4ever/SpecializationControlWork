@@ -14,6 +14,7 @@ public interface View {
     void printMenu();
     void exit();
     void addNewPet();
+    void deletePet();
     void teachPetById();
     void getPetsCommandsById();
     void getPetInfo();

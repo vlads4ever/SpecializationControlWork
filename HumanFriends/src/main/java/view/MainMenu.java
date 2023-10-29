@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenu {
-    private List<Command> commandList;
+    private final List<Command> commandList;
     private View view;
 
     public MainMenu(View view) {
@@ -20,6 +20,7 @@ public class MainMenu {
         commandList.add(new TeachPetById(view));
         commandList.add(new GetPetInfo(view));
         commandList.add(new GetPetsCommandsById(view));
+        commandList.add(new DeletePet(view));
     }
 
     public String print(){

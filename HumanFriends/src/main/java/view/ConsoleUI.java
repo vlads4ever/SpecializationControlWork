@@ -4,13 +4,14 @@ import presenter.Presenter;
 import view.interfaces.View;
 
 import java.io.IOException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class ConsoleUI implements View {
     private Presenter presenter;
-    private MainMenu mainMenu;
-    private Scanner scanner;
+    private final MainMenu mainMenu;
+    private final Scanner scanner;
     private boolean run;
 
     public ConsoleUI() {
@@ -37,32 +38,28 @@ public class ConsoleUI implements View {
     private void execute() {
         System.out.print("Input command number> ");
         String userInput = scanner.nextLine();
-        if (checkTextForInt(userInput)){
-            try {
-                int numCommand = Integer.parseInt(userInput);
-                if (checkCommand(numCommand)){
-                    mainMenu.execute(numCommand);
-                }
-            } catch (NumberFormatException e) {
-                print("An incorrect value was entered.");
+        if (checkTextForInt(userInput)) {
+            int numCommand = Integer.parseInt(userInput);
+            if (checkCommand(numCommand)){
+                mainMenu.execute(numCommand);
             }
         }
     }
 
     private boolean checkTextForInt(String text){
-        if (text.matches("[0-9]+")){
+        if (text.matches("[0-9]+")) {
             return true;
         } else {
-            print("An incorrect value was entered.");
+            print("An incorrect value was entered!" + "\n");
             return false;
         }
     }
 
     private boolean checkCommand(int numCommand){
-        if (numCommand <= mainMenu.size()){
+        if (numCommand <= mainMenu.size() && numCommand > 0) {
             return true;
         } else {
-            this.print("There is no such command.");
+            print("There is no such command!" + "\n");
             return false;
         }
     }
@@ -96,8 +93,6 @@ public class ConsoleUI implements View {
         LocalDate birthday = inputDate("Input birthday (yyyy-mm-dd): ");
         if ( birthday != null) {
             presenter.addNewPet(type, name, birthday);
-        } else {
-            print("Wrong date format");
         }
         print("");
     }
@@ -110,16 +105,36 @@ public class ConsoleUI implements View {
     private LocalDate inputDate(String message) {
         System.out.print(message);
         String input = scanner.nextLine();
-        String[] numbers = input.split("-");
-        try {
-            int year = Integer.parseInt(numbers[0]);
-            int month = Integer.parseInt(numbers[1]);
-            int day = Integer.parseInt(numbers[2]);
-            return LocalDate.of(year, month, day);
-        } catch (NumberFormatException e) {
-            print("An incorrect value was entered.");
+        String[] dateNumbers = input.split("-");
+        if (dateNumbers.length == 3) {
+            try {
+                int year = Integer.parseInt(dateNumbers[0]);
+                int month = Integer.parseInt(dateNumbers[1]);
+                int day = Integer.parseInt(dateNumbers[2]);
+                return LocalDate.of(year, month, day);
+            } catch (NumberFormatException e) {
+                print("It must be the integer numbers in date!" + "\n");
+            } catch (DateTimeException e) {
+                print("An incorrect date was entered!" + "\n");
+            }
+        } else {
+            print("Not enough data for the date or wrong format!" + "\n");
         }
+
+
         return null;
+    }
+
+    @Override
+    public void deletePet() {
+        String strId = inputString("Input Pet`s id: ");
+        try {
+            int id = Integer.parseInt(strId);
+            presenter.deletePet(id);
+        } catch (NumberFormatException e) {
+            print("An incorrect value was entered!");
+        }
+        print("");
     }
 
     @Override
@@ -130,7 +145,7 @@ public class ConsoleUI implements View {
             int id = Integer.parseInt(strId);
             presenter.teachPetById(id, command);
         } catch (NumberFormatException e) {
-            print("An incorrect value was entered.");
+            print("An incorrect value was entered!");
         }
         print("");
     }
@@ -142,7 +157,7 @@ public class ConsoleUI implements View {
             int id = Integer.parseInt(strId);
             presenter.getPetsCommandsById(id);
         } catch (NumberFormatException e) {
-            print("An incorrect value was entered.");
+            print("An incorrect value was entered!");
         }
         print("");
     }
@@ -154,7 +169,7 @@ public class ConsoleUI implements View {
             int id = Integer.parseInt(strId);
             presenter.getPetInfo(id);
         } catch (NumberFormatException e) {
-            print("An incorrect value was entered.");
+            print("An incorrect value was entered!");
         }
         print("");
     }
