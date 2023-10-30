@@ -1,17 +1,18 @@
 package model.petsRegistry;
 
+import model.interfaces.Animal;
 import model.pets.Cat;
 import model.pets.Dog;
 import model.pets.Hamster;
-import model.pets.Pet;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class PetsRegistry {
+public class PetsRegistry<E extends Animal> implements Iterable<E>{
     private final Counter counter;
-    private final List<Pet> registry;
+    private final List<E> registry;
 
     public PetsRegistry(Counter counter) {
         this.registry = new ArrayList<>();
@@ -21,7 +22,7 @@ public class PetsRegistry {
     public String addNewPet(String type, String name, LocalDate birthday) {
         counter.add();  // Увеличиваем id на 1
         int id = counter.getNewId();    // Берем увеличенный на 1 id
-        Pet newPet = createNewPet(type, id);
+        E newPet = createNewPet(type, id);
         if (newPet == null) {
             return "No such Pet type!";
         } else {
@@ -33,7 +34,7 @@ public class PetsRegistry {
     }
 
     public String teachPetById(int id, String command) {
-        Pet pet = findPetById(id);
+        E pet = findPetById(id);
         if (pet != null) {
             pet.addCommand(command);
             return "Pet was taught.";
@@ -42,7 +43,7 @@ public class PetsRegistry {
     }
 
     public String getPetsCommandsById(int id) {
-        Pet pet = findPetById(id);
+        E pet = findPetById(id);
         if (pet != null) {
             List<String> commands = pet.getCommands();
             StringBuilder output = new StringBuilder();
@@ -59,17 +60,17 @@ public class PetsRegistry {
         return  "Pet not found!";
     }
 
-    private Pet createNewPet (String type, int id) {
+    private E createNewPet (String type, int id) {
         return switch (type) {
-            case "cat" -> new Cat(id);
-            case "dog" -> new Dog(id);
-            case "hamster" -> new Hamster(id);
+            case "cat" -> (E) new Cat(id);
+            case "dog" -> (E) new Dog(id);
+            case "hamster" -> (E) new Hamster(id);
             default -> null;
         };
     }
 
     public String deletePet (int id) {
-        Pet pet = findPetById(id);
+        E pet = findPetById(id);
         if (pet != null) {
             registry.remove(pet);
             return "Pet with id " + id + " was deleted.";
@@ -77,15 +78,15 @@ public class PetsRegistry {
         return  "Pet not found!";
     }
 
-    private Pet findPetById(int id) {
-        for (Pet pet: registry) {
+    private E findPetById(int id) {
+        for (E pet: registry) {
             if (pet.getId() == id) return pet;
         }
         return null;
     }
 
     public String getPetInfo(int id) {
-        Pet pet = findPetById(id);
+        E pet = findPetById(id);
         if (pet != null) {
             return pet.toString();
         }
@@ -97,7 +98,9 @@ public class PetsRegistry {
         if (registry.size() == 0) {
             return "You have no Pets.";
         } else {
-            for (Pet pet: registry) {
+            Iterator<E> iterator = this.iterator();
+            while (iterator.hasNext()) {
+                E pet = iterator.next();
                 output.append("ID: ").append(pet.getId()).append("    ");
                 output.append("Type: ").append(pet.getClass().getSimpleName()).append("    ");
                 output.append("Nickname: ").append(pet.getName()).append("    ");
@@ -105,5 +108,10 @@ public class PetsRegistry {
             }
             return output.toString();
         }
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return (Iterator<E>) new PetsIterator((List<Animal>) registry);
     }
 }

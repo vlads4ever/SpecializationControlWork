@@ -8,10 +8,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Service {
-    private PetsRegistry activeRegistry;
+    private final PetsRegistry<Pet> activeRegistry;
 
     public Service(Counter counter) {
-        this.activeRegistry = new PetsRegistry(counter);
+        this.activeRegistry = new PetsRegistry<>(counter);
     }
 
     public String addNewPet(String type, String name, LocalDate birthday) {

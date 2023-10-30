@@ -65,10 +65,10 @@ public abstract class Pet implements Animal {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-        output.append("ID: " + id + "    ");
-        output.append("Type: " + this.getClass().getSimpleName() + "    ");
-        output.append("Nickname: " + name + "    ");
-        output.append("Birthday: " + birthday + "\n");
+        output.append("ID: ").append(id).append("    ");
+        output.append("Type: ").append(this.getClass().getSimpleName()).append("    ");
+        output.append("Nickname: ").append(name).append("    ");
+        output.append("Birthday: ").append(birthday).append("\n");
         output.append("Commands: ");
         if (commands.size() == 0) {
             output.append("Pet doesn`t know any command.");
