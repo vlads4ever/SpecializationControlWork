@@ -67,7 +67,9 @@ sudo dpkg -r google-chrome-stable
 животных войдут классы: собаки, кошки, хомяки, а в класс вьючные животные
 войдут: Лошади, верблюды и ослы).
 ![Task 6](images/HierarchyOfAnimalClasses.png)
+
 Файл диаграммы [здесь](additional_files/HierarchyOfAnimalClasses.drawio).
+
 7. В подключенном MySQL репозитории создать базу данных “Друзья
 человека”
 ```SQL
@@ -308,6 +310,8 @@ CREATE TABLE animals_report AS
     5. Реализовать навигацию по меню
 
 Приложение на Java [здесь](HumanFriends/src/main/java).
+
+Доработанное приложение с загрузкой из БД MySQL [здесь](HumanFriends%20ver.2/src/main/java).
 
 15. Создайте класс Счетчик, у которого есть метод add(), увеличивающий̆
 значение внутренней̆int переменной̆на 1 при нажатие “Завести новое
