@@ -22,6 +22,7 @@ public class MainMenu {
         commandList.add(new GetPetsCommandsById(view));
         commandList.add(new DeletePet(view));
         commandList.add(new LoadPetsFromDB(view));
+        commandList.add(new SavePetsToDB(view));
     }
 
     public String print(){

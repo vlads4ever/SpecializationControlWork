@@ -30,13 +30,13 @@ public class LoadObjectsFromDB implements Loadable {
     }
 
     @Override
-    public void loadObjects(PetsRegistry<Pet> activeRegistry) {
-        loadFromDb("cat", activeRegistry);
-        loadFromDb("dog", activeRegistry);
-        loadFromDb("hamster", activeRegistry);
+    public String loadObjects(PetsRegistry<Pet> activeRegistry) {
+        return loadFromDb("cat", activeRegistry) + "\n" +
+                loadFromDb("dog", activeRegistry) + "\n" +
+                loadFromDb("hamster", activeRegistry);
     }
 
-    private void loadFromDb(String type, PetsRegistry<Pet> activeRegistry) {
+    private String loadFromDb(String type, PetsRegistry<Pet> activeRegistry) {
         String query = String.format("SELECT name, birthday, commands FROM %ss;", type);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -58,8 +58,10 @@ public class LoadObjectsFromDB implements Loadable {
                 String[] splCommands = commands.split(",");
                 activeRegistry.addNewPet(type, name, birthday, splCommands);
             }
+            return String.format("%s was loaded from database.", type);
         } catch (SQLException | ClassNotFoundException sqlEx) {
             sqlEx.printStackTrace();
+            return String.format("%s was not loaded from database.", type);
         } finally {
             //close connection ,stmt and resultset here
             try { con.close(); } catch(SQLException se) { /*can't do anything */ }

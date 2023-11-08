@@ -1,20 +1,22 @@
 package model.service;
 
 import model.interfaces.Loadable;
+import model.interfaces.Saveable;
 import model.pets.Pet;
 import model.petsRegistry.Counter;
 import model.petsRegistry.PetsRegistry;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class Service {
     private final PetsRegistry<Pet> activeRegistry;
     private Loadable load;
+    private Saveable save;
 
-    public Service(Counter counter, Loadable load) {
+    public Service(Counter counter, Saveable save, Loadable load) {
         this.activeRegistry = new PetsRegistry<>(counter);
         this.load = load;
+        this.save = save;
     }
 
     public String addNewPet(String type, String name, LocalDate birthday) {
@@ -42,7 +44,10 @@ public class Service {
     }
 
     public String loadPetsFromDB() {
-        load.loadObjects(activeRegistry);
-        return "Pets was loaded from database";
+        return load.loadObjects(activeRegistry);
+    }
+
+    public String savePetsToDB() {
+        return save.saveObjects(activeRegistry);
     }
 }

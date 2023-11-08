@@ -20,4 +20,5 @@ public interface View {
     void getPetInfo();
     void getPetsList();
     void load();
+    void save();
 }

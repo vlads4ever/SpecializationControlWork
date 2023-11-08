@@ -42,4 +42,8 @@ public class Presenter {
     public void loadPetsFromDB() {
         view.print(service.loadPetsFromDB());
     }
+
+    public void savePetsToDB() {
+        view.print(service.savePetsToDB());
+    }
 }

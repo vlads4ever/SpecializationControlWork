@@ -184,5 +184,12 @@ public class ConsoleUI implements View {
     @Override
     public void load() {
         presenter.loadPetsFromDB();
+        print("");
+    }
+
+    @Override
+    public void save() {
+        presenter.savePetsToDB();
+        print("");
     }
 }
